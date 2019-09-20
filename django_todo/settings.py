@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import dj_database_url # adding for prodiction postgres
 
-
+dev = os.environ.get('DEV')
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,9 +25,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'lh5p-yto(r6cgzjrn+&a2psvy8*6$a2qtjdr1m1*ho3sbs-&yc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DJANGO_DEBUG')
 
-ALLOWED_HOSTS = ['al-test-django.herokuapp.com']
+ALLOWED_HOSTS = ['al-test-django.herokuapp.com',
+                 'localhost'
+                ]
 
 
 # Application definition
@@ -75,15 +77,15 @@ WSGI_APPLICATION = 'django_todo.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-'''if development:
+if dev:
     DATABASES = {
         'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
-else:'''
-DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL')) }
+else:
+    DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL')) }
 
 
 # Password validation
